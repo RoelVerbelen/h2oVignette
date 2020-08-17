@@ -1,0 +1,51 @@
+---
+title: "h2o"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{h2o}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(h2oVignette)
+```
+
+Print environment variable `TPMDIR`.
+
+```{r}
+Sys.getenv('TMPDIR')
+```
+
+Fit an H2O model to the iris data.
+
+```{r}
+# Load package
+library(h2o)
+
+# Initialize and connect to H2O
+h2o.init(port = 54321)
+
+# Disable progress bar
+h2o.no_progress()
+
+# Convert data.frame H2OFrame
+iris_h2o <- as.h2o(iris)
+
+# Fit H2O Poison GBM
+model_gbm <- h2o.gbm(x = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
+                     y = "Species",
+                     training_frame = iris_h2o)
+
+# Inspect model
+model_gbm
+```
+
+
